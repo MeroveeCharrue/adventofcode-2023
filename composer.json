@@ -1,0 +1,27 @@
+{
+    "name": "merovee/adventofcode2023",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.3",
+        "symfony/console": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Advent2023\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Advent2023\\Tests\\": "tests/"
+        }
+    }
+}
