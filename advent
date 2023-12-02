@@ -3,7 +3,7 @@
 
 require __DIR__.'/vendor/autoload.php';
 
-use Advent2023\SantaCommand;
+use Advent2023\Command\SantaCommand;
 
 $singleCommandApplication = new SantaCommand();
 $singleCommandApplication->run();
