@@ -4,14 +4,41 @@ declare(strict_types=1);
 
 namespace Advent2023\Repository;
 
+use Advent2023\Puzzle\PuzzleSolver;
+use Symfony\Component\Finder\Finder;
+
 class PuzzleLoader
 {
-    public function getDays(): array
+    /** @var string[] $dayFilenames */
+    private array $dayFilenames;
+
+    public function __construct()
     {
-        return [
-            1 => 'Day 1',
-            2 => 'Day 2',
-            3 => 'Day 3'
-        ];
+        $finder = new Finder();
+        $finder->files()
+            ->in(dirname(__DIR__).'/Puzzle')
+            ->name('Day*.php');
+
+        $i = 1;
+        foreach ($finder as $file) {
+            $this->dayFilenames[$i++] = $file->getFilenameWithoutExtension();
+        }
+    }
+
+    public function getDaysListForChoice(): array
+    {
+        return $this->dayFilenames;
+    }
+
+    public function getAvailablePuzzleCount(): int
+    {
+        return count($this->dayFilenames);
+    }
+
+    public function getPuzzle(int $dayNumber): PuzzleSolver
+    {
+        $fqcn = 'Advent2023\Puzzle\\'.$this->dayFilenames[$dayNumber];
+
+        return new $fqcn($dayNumber);
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Advent2023\Command;
 
 use Advent2023\Repository\PuzzleLoader;
-use Advent2023\Service\PuzzleSolver;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,18 +22,20 @@ class SantaCommand extends SingleCommandApplication
 {
     private readonly SymfonyStyle $io;
     private readonly PuzzleLoader $puzzleLoader;
-    private readonly PuzzleSolver $puzzleSolver;
 
     protected function configure(): void
     {
-        $this->addArgument('day', InputArgument::OPTIONAL, 'Which day challenge should I solve ?');
+        $this->addArgument(
+            'day',
+            InputArgument::OPTIONAL,
+            'Which day challenge should we solve ?'
+        );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
         $this->puzzleLoader = new PuzzleLoader();
-        $this->puzzleSolver = new PuzzleSolver();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,17 +48,32 @@ class SantaCommand extends SingleCommandApplication
         ]);
 
         $this->io->section('Selecting challenge');
-        $day = $this->getDayToSolve($input, $output);
-        $this->io->text('Alright, let\'s solve day <fg=green>'.$day.'</>.');
+        $dayNumber = $this->getDayNumberToSolve($input, $output);
+        $this->io->text('Alright, let\'s solve day <fg=green>'.$dayNumber.'</>.');
 
         $this->io->section('Solving the day!');
         $this->io->text('Let me think for a minute...');
-        $this->io->success((string) $this->puzzleSolver->solve());
+        $this->io->newLine();
+
+        $puzzleOfTheDay = $this->puzzleLoader->getPuzzle($dayNumber);
+
+        $this->io->text(
+            'Solution for part one is: <fg=yellow;options=bold>'.
+            $puzzleOfTheDay->solvePartOne().'</>'
+        );
+        $this->io->text(
+            'Solution for part two is: <fg=yellow;options=bold>'.
+            $puzzleOfTheDay->solvePartTwo().'</>'
+        );
+
+        $this->io->newLine();
+        $this->io->text('Merry Xmas! <fg=green>:)</>');
+        $this->io->newLine();
 
         return Command::SUCCESS;
     }
 
-    private function getDayToSolve(InputInterface $input, OutputInterface $output): int
+    private function getDayNumberToSolve(InputInterface $input, OutputInterface $output): int
     {
         $day = (int) $input->getArgument('day');
         if (!$this->validateDay($day)) {
@@ -69,12 +85,13 @@ class SantaCommand extends SingleCommandApplication
 
     private function validateDay(int $day): bool
     {
-        return $day > 0 && $day <= count($this->getDays());
+        return $day > 0
+            && $day <= $this->puzzleLoader->getAvailablePuzzleCount();
     }
 
     private function askForDay(InputInterface $input, OutputInterface $output): int
     {
-        $choices = $this->getDays();
+        $choices = $this->puzzleLoader->getDaysListForChoice();
 
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
@@ -86,10 +103,5 @@ class SantaCommand extends SingleCommandApplication
         $dayAnswer = $helper->ask($input, $output, $question);
 
         return array_search($dayAnswer, $choices); // Needed until https://github.com/symfony/symfony/issues/40439.
-    }
-
-    private function getDays(): array
-    {
-        return $this->puzzleLoader->getDays();
     }
 }

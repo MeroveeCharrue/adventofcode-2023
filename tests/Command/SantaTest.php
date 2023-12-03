@@ -24,5 +24,6 @@ class SantaTest extends TestCase
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('This is Santa speaking.', $output);
         $this->assertStringContainsString('Solving the day!', $output);
+        $this->assertStringContainsString('Merry Xmas', $output);
     }
 }
