@@ -17,7 +17,8 @@ class PuzzleLoader
         $finder = new Finder();
         $finder->files()
             ->in(dirname(__DIR__).'/Puzzle')
-            ->name('Day*.php');
+            ->name('Day*.php')
+            ->sortByCaseInsensitiveName();
 
         $i = 1;
         foreach ($finder as $file) {

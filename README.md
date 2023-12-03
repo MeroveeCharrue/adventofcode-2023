@@ -4,6 +4,12 @@ Another year, another [AdventOfCode](https://adventofcode.com/2023) :-)
 
 This time, let's play with Symfony's [Console component](https://symfony.com/doc/current/components/console.html).
 
+## Sneak peek
+
+![](doc/assets/cute.png)
+
+_Sorry for the spoil._
+
 ## Solve it all!
 
 This requires PHP ^8.3 and Composer.
@@ -13,7 +19,7 @@ This requires PHP ^8.3 and Composer.
 composer install
 
 # Enjoy the ride!
-./advent
+./advent [<day>]
 ```
 
 ## Tests
