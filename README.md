@@ -31,7 +31,7 @@ All boilerplate is handled:
 Progress by testing:
 
 3. Create new test class `Advent2023\Tests\Puzzle\Day1Test` extending `Advent2023\Tests\Puzzle\PuzzleTestCase`.
-4. Create new input text file in "./tests/Puzzle/Input/Puzzle1" with test input.
+4. Create new input text file in "./tests/Puzzle/Input/Puzzle1" with given test input.
 
 ## Bonus
 

@@ -15,12 +15,12 @@ class Day1Test extends PuzzleTestCase
     #[\Override]
     protected function getExpectedPartOne(): int
     {
-        return 0;
+        return 209;
     }
 
     #[\Override]
     protected function getExpectedPartTwo(): int
     {
-        return 0;
+        return 281;
     }
 }
