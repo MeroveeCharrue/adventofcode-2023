@@ -25,7 +25,19 @@ class Day4 extends PuzzleSolver
     #[\Override]
     public function solvePartTwo(): int
     {
-        return 0;
+        $multiplier = array_fill(0, count($this->lines), 1);
+
+        foreach ($this->lines as $i => $line) {
+
+            for ($times = 0; $times < $multiplier[$i]; $times++) {
+                $matchCount = $this->getMatchCount($line);
+                for ($matchLine = 0; $matchLine < $matchCount; $matchLine++) {
+                    $multiplier[$i + 1 + $matchLine]++;
+                }
+            }
+        }
+
+        return array_sum($multiplier);
     }
 
     private function getMatchCount(string $game): int
