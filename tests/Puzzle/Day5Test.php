@@ -21,6 +21,6 @@ class Day5Test extends PuzzleTestCase
     #[\Override]
     protected function getExpectedPartTwo(): int
     {
-        return 0;
+        return 46;
     }
 }
